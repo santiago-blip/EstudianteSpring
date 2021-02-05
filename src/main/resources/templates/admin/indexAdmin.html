@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> 
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/styleEst.css">
+        <title sec:authorize="hasRole('ROLE_ADMIN')">Administrador</title>
+        <title sec:authorize="hasRole('ROLE_USER')">Estudiante</title>
+    </head>
+    <body>
+
+        <!--NAVBAR-->
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/}">IMG</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/nuevo}">Agregar estudiante</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/agregar/curso}">Agregar curso</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " th:href="@{/ver/cursos}">Ver cursos</a>
+                        </li>
+                    </ul>
+                    <div class="mx-2">
+                        <form th:action="@{/logout}" method="POST">
+                            <input class="btn btn-outline-success" type="submit" value="Log out">
+                        </form>
+                    </div>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <div class="navUser" sec:authorize="hasRole('ROLE_USER')">
+            <div >
+                <form th:action="@{/logout}" method="POST">
+                    <input class="btn btn-outline-success" type="submit" value="Log out">
+                </form>
+            </div>
+            <div sec:authentication="name"></div>
+            <div sec:authentication="principal.authorities"></div>
+        </div>
+         <div sec:authentication="principal.authorities"></div>
+        <!--NAVBAR-->
+        <!--CARTAS-->
+        <div class="containerEstudiantes" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="cartaEst" th:each="alumno : ${alumnos}">
+                <div class="DivImgEst"></div>
+                <div class="infoEst">
+                    <strong class="d-inline-block mb-2 text-primary">id estudiante [[${alumno.idAlumno}]]</strong>
+                    <h3 class="mb-0">[[${alumno.nombre}]] [[${alumno.apellido}]]</h3>
+                    <div class="mb-1 text-muted" th:text="${alumno.idContacto.email}"></div>
+                    <p class="card-text mb-auto" th:text="${alumno.idContacto.telefono}"></p>
+                    <p class="card-text mb-auto" >[[${alumno.idDomicilio.calle}]] [[${alumno.idDomicilio.noCalle}]]</p>
+                    <p class="card-text mb-auto" >[[${alumno.idDomicilio.pais}]]</p>
+                    <a th:href="@{/ver/}+${alumno.idAlumno}" class="redEst">Ver</a>
+                </div>
+            </div>
+        </div>
+        <!--CARTAS-->
+        <!--
+        PARTE ANTERIOR ADMIN
+        -->
+        <!--
+        PARTE SIGUIENTE USUARIO
+        -->
+        <div sec:authorize="hasRole('ROLE_USER')" class="containerEstudentOne">
+            <div class="estudentImg"></div>
+            <div class="estudentInfo">
+                <div class="estudentInfoI">
+                    <p th:text="${usuarioLog.idUsuario}"></p>
+                    <p th:text="${usuarioLog.nombre}"></p>
+                    <p th:text="${usuarioLog.rol.idRol}"></p>
+                    <p th:text="${usuarioLog.rol.role}"></p>
+                    <p th:text="${usuarioLog.idAlumno.idAlumno}"></p>
+                    <p th:text="${usuarioLog.idAlumno.nombre}"></p>
+                    <p th:text="${usuarioLog.idAlumno.apellido}"></p>
+                </div>
+                <div class="estudentInfoI">
+                    <p th:text="${usuarioLog.idAlumno.idContacto.idContacto}"></p>
+                    <p th:text="${usuarioLog.idAlumno.idContacto.email}"></p>
+                    <p th:text="${usuarioLog.idAlumno.idContacto.telefono}"></p>
+                    <p th:text="${usuarioLog.idAlumno.idDomicilio.idDomicilio}"></p>
+                    <p th:text="'Calle '+${usuarioLog.idAlumno.idDomicilio.calle} + ' ' +${usuarioLog.idAlumno.idDomicilio.noCalle}"></p>
+                    <p th:text="${usuarioLog.idAlumno.idDomicilio.pais}"></p>
+
+                </div>
+            </div>
+            <div class="bottomU">
+                <form th:action="@{/alumno/curso/alumno/}" method="POST">
+                    <input type="hidden" th:value="${usuarioLog.idAlumno.idAlumno}" name="idAlumno">
+                    <input type="hidden" th:value="${usuarioLog.idUsuario}" name="idUsuario">
+                    <button type="submit" class="btnM btnAgg">Agregar curso</button>
+                </form>
+                <table class="table mt-5">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre del curso</th>
+                            <th scope="col">Precio</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each='curso : ${usuarioLog.idAlumno.listaAsignacion}'>
+                            <td th:text='${curso.idCuros.idCurso}'></td>
+                            <td th:text='${curso.idCuros.nombreCurso}'></td>
+                            <td th:text='${curso.idCuros.precioCurso}'></td>
+                            <td><a class="btnM btnDelete" th:href="@{/alumno/eliminar/curso/alumno/}+${curso.idAsignacion}">Eliminar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    </body>
+</html>

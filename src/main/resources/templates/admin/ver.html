@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns:th="http://www.thymeleaf.org"> 
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/styleVer.css">
+        <title>Ver</title>
+    </head>
+    <body>
+
+        <!--NAVBAR-->
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" >
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/}">IMG</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" th:href="@{/}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/nuevo}">Agregar estudiante</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/agregar/curso}">Agregar curso</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/ver/cursos}">Ver cursos</a>
+                        </li>
+                    </ul>
+                    <div class="mx-2">
+                        <form th:action="@{/logout}" method="POST">
+                            <input class="btn btn-outline-success" type="submit" value="Log out">
+                        </form>
+                    </div>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!--NAVBAR-->
+
+        <!--VER ESTUDIANTE -->
+
+        <div class="ContainerVer">
+            <div class="divTopVer">
+                <div class="topLeft">
+                    <div class="imgVer"></div>
+                </div>
+                <div class="topRight">
+                    <div class="infoVer">
+                        <h1>[[${alumno.nombre}]] [[${alumno.apellido}]]</h1>
+                        <table class="table mt-5">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Correo</th>
+                                    <th scope="col">Telefono</th>
+                                    <th scope="col">País</th>
+                                    <th scope="col">Dirección</th>
+                                    <th scope="col">Usuario</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th th:text='${alumno.idAlumno}'></th>
+                                    <td th:text='${alumno.idContacto.email}'></td>
+                                    <td th:text='${alumno.idContacto.telefono}'></td>
+                                    <td th:text='${alumno.idDomicilio.pais}'></td>
+                                    <td>Calle: [[${alumno.idDomicilio.calle}]] [[${alumno.idDomicilio.noCalle}]]</td>
+                                    <td><a class="editBtn btnP" th:href="@{/alumno/recuperar(id=${alumno.idAlumno})}">Recuperar contraseña</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a class="editBtn" th:href="@{/alumno/editar(idAlumno=${alumno.idAlumno})}">Editar</a>
+                        <a class="editBtn btnDelete" th:href="@{/alumno/eliminar(idAlumno=${alumno.idAlumno})}">Eliminar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="divBottomVer">
+                <div class="bottomU">
+                    <a th:href="@{/alumno/curso/alumno/}+${alumno.idAlumno}" class="editBtn">Asignar curso</a>
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nombre del curso</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="curso : ${alumno.listaAsignacion}">
+                                <td th:text='${curso.idCuros.idCurso}'></td>
+                                <td th:text='${curso.idCuros.nombreCurso}'></td>
+                                <td th:text='${curso.idCuros.precioCurso}'></td>
+                                <td><a class="editBtn btnDelete" th:href="@{/alumno/eliminar/curso/alumno/}+${curso.idAsignacion}">Eliminar</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="anclasVer">
+                    <div class="anclasVe1r"></div>
+                    <div class="anclasVer2"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--VER ESTUDIANTE -->
+    </body>
+</html>

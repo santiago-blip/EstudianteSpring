@@ -2,34 +2,43 @@ package EstudianteSpring.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="tbl_usuario")
-public class Usuario implements Serializable{
-    
+@Table(name = "tbl_usuario")
+public class Usuario implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_usuario")
-    private int idUsuario;
-    
+    @Column(name = "id_usuario")
+    private Long idUsuario;
+
     @ManyToOne
     @JoinColumn(name = "id_rol")
     private Rol rol;
-    
+
+    @NotEmpty
+    @Column(unique = true)
     private String nombre;
-    
-    @Column(name="contra")
+
+    @NotEmpty
+    @Column(name = "contra")
     private String pass;
-    
-    public Usuario(){
-        
+
+   
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "idUsuario")
+    private Alumno idAlumno;
+
+    public Usuario() {
+
     }
 
-    public int getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -57,5 +66,12 @@ public class Usuario implements Serializable{
         this.pass = pass;
     }
 
-    
+    public Alumno getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Alumno idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
 }

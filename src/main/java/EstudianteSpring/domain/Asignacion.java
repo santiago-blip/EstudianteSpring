@@ -2,6 +2,7 @@ package EstudianteSpring.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.Valid;
 
 @Entity
 @Table(name = "tbl_asignacion")
@@ -10,12 +11,14 @@ public class Asignacion implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asignacion")
-    private int idAsignacion;
+    private Long idAsignacion;
     
-    @ManyToOne
+    @Valid
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_alumno")
     private Alumno idAlumno;
     
+    @Valid
     @ManyToOne
     @JoinColumn(name = "id_curso")
     private Curso idCuros;
@@ -23,11 +26,11 @@ public class Asignacion implements Serializable{
     public Asignacion(){
         
     }
-    public int getIdAsignacion() {
+    public Long getIdAsignacion() {
         return idAsignacion;
     }
 
-    public void setIdAsignacion(int idAsignacion) {
+    public void setIdAsignacion(Long idAsignacion) {
         this.idAsignacion = idAsignacion;
     }
 

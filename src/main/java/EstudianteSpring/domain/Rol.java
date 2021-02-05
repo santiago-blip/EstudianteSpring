@@ -10,28 +10,29 @@ public class Rol implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rol")
-    private int idRol;
+    private Long idRol;
     
-    private String role;
+    @Column(name = "role")
+    private String rol;
     
     public Rol(){
         
     }
 
-    public int getIdRol() {
+    public Long getIdRol() {
         return idRol;
     }
 
-    public void setIdRol(int idRol) {
+    public void setIdRol(Long idRol) {
         this.idRol = idRol;
     }
 
     public String getRole() {
-        return role;
+        return rol;
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.rol = role;
     }
     
 }

@@ -2,6 +2,8 @@ package EstudianteSpring.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tbl_curso")
@@ -10,11 +12,13 @@ public class Curso implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_curso")
-    private int idCurso;
+    private Long idCurso;
     
+    @NotEmpty
     @Column(name = "nombre")
     private String nombreCurso;
     
+    @NotNull
     @Column(name = "precio")
     private Double precioCurso;
     
@@ -22,11 +26,11 @@ public class Curso implements Serializable{
         
     }
 
-    public int getIdCurso() {
+    public Long getIdCurso() {
         return idCurso;
     }
 
-    public void setIdCurso(int idCurso) {
+    public void setIdCurso(Long idCurso) {
         this.idCurso = idCurso;
     }
 

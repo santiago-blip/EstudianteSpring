@@ -2,6 +2,7 @@ package EstudianteSpring.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="tbl_domicilio")
@@ -10,24 +11,27 @@ public class Domicilio implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_domicilio")
-    private int idDomicilio;
+    private Long idDomicilio;
     
+    @NotEmpty
     private String calle;
     
+    @NotEmpty
     @Column(name="no_calle")
     private String noCalle;
     
+    @NotEmpty
     private String pais;
     
     public Domicilio(){
         
     }
 
-    public int getIdDomicilio() {
+    public Long getIdDomicilio() {
         return idDomicilio;
     }
 
-    public void setIdDomicilio(int idDomicilio) {
+    public void setIdDomicilio(Long idDomicilio) {
         this.idDomicilio = idDomicilio;
     }
 

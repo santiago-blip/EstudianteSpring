@@ -1,0 +1,65 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+.ContainerVer{
+    margin-top: 50px;
+    width: 100%;
+    border: 1px solid black;
+}
+.divTopVer{
+    display: flex;
+}
+.topLeft{
+    width: 50%;
+    border: 1px solid black;
+    padding: 20px;
+}
+.topRight{
+    width: 50%;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid black;
+}
+
+.editBtn{
+    text-decoration: none;
+    display: inline-block;
+    border: 1px solid #0FEBF5;
+    color:#0FEBF5;
+    border-radius: 10px; 
+    margin-top: 10px;
+    margin-left: -5px;
+    padding: 5px;
+    width: 40%;
+    text-align: center;
+}
+
+.editBtn:hover{
+    background-color: #0FEBF5;
+    color:white;
+}
+.btnDelete{
+    margin-left: 5px; 
+    border: 1px solid #FF2101;
+    color:#FF2101;
+}
+.btnDelete:hover{
+    background-color: #FF2101;
+    color:white;
+}
+.btnP{
+    margin: 0px;
+    width: 100%;
+}
+.imgVer{
+    width: 60%;
+    height: 350px;
+    background-color: black;
+    margin: auto;
+}
+.bottomU{
+    width: 60%;
+    margin: auto;
+}

@@ -3,6 +3,11 @@ package EstudianteSpring.domain;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "tbl_alumno")
@@ -11,39 +16,47 @@ public class Alumno implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_alumno")
-    private int idAlumno;
+    private Long idAlumno;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_usuario")
     private Usuario idUsuario;
 
-    @ManyToOne
+    @Valid
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_domicilio")
     private Domicilio idDomicilio;
 
-    @ManyToOne
+    @Valid
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_contacto")
     private Contacto idContacto;
 
+    @NotEmpty
     @Column(name = "nombre_alumno")
     private String nombre;
 
+    @NotEmpty
     @Column(name = "apellido_alumno")
     private String apellido;
-    
-    @OneToMany // o @OneToMany(mappedBy = "alumno") alumno es el campo de la otra clase donde está el joinColumn a esta tabla
+
+    @OneToMany(cascade = CascadeType.ALL) // o @OneToMany(mappedBy = "alumno") alumno es el campo de la otra clase donde está el joinColumn a esta tabla
     @JoinColumn(name = "id_alumno")
-    private List<Asignacion> listaAsignacion;
     
-    public Alumno(){
-        
+    private List<Asignacion> listaAsignacion;
+
+    public Alumno() {
+
     }
 
-    public int getIdAlumno() {
+    public Long getIdAlumno() {
         return idAlumno;
     }
 
-    public void setIdAlumno(int idAlumno) {
+    public void setIdAlumno(Long idAlumno) {
         this.idAlumno = idAlumno;
     }
 
@@ -94,5 +107,8 @@ public class Alumno implements Serializable {
     public void setListaAsignacion(List<Asignacion> listaAsignacion) {
         this.listaAsignacion = listaAsignacion;
     }
-    
+
+    public void addAsignacion(Asignacion asignacion) {
+        this.listaAsignacion.add(asignacion);
+    }
 }
